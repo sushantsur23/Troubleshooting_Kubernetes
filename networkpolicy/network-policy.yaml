@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres-network-policy
+  namespace: default
+spec:
+  # 1. Target: Which pods does this rule apply to?
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+  - Ingress
+  # 2. Rules: Who is allowed to connect?
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          # Only pods with this label can connect
+          app: web-app 
+    ports:
+    - protocol: TCP
+      port: 5432  # PostgreSQL default port
