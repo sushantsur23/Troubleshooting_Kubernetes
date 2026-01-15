@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+  labels:
+    app: cache-layer
+spec:
+  selector:
+    matchLabels:
+      app: redis-node
+  serviceName: "redis-service"
+  replicas: 3
+  # Ensures pods are ready for 15s before moving to the next one during updates
+  minReadySeconds: 15 
+  template:
+    metadata:
+      labels:
+        app: redis-node
+    spec:
+      terminationGracePeriodSeconds: 20
+      containers:
+      - name: redis
+        image: redis:7.2-alpine
+        ports:
+        - containerPort: 6379
+          name: redis-port
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard" # Matches your cloud/local provider
+      resources:
+        requests:
+          storage: 5Gi
