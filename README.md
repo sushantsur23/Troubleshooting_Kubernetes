@@ -18,7 +18,8 @@ kubectl get pods
 kubectl describe pod <pod-name>
 kubectl get events
 
-### CrashLoopBackOff
+
+## CrashLoopBackOff
 
 `CrashLoopBackOff` occurs when a Pod’s container **repeatedly crashes and restarts**.  
 Kubernetes retries the restart with **increasing delays** instead of failing immediately.
