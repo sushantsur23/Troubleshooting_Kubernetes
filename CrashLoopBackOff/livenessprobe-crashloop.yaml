@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveness-http-demo
+  labels:
+    app: health-check-learning
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-check-learning
+  template:
+    metadata:
+      labels:
+        app: health-check-learning
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        # The Liveness Probe configuration
+        livenessProbe:
+          httpGet:
+            path: /healthz  # This path does not exist in default nginx
+            port: 80
+          initialDelaySeconds: 3  # Wait 3s before first check
+          periodSeconds: 5        # Check every 5s
+          failureThreshold: 1     # Restart immediately after 1 failure

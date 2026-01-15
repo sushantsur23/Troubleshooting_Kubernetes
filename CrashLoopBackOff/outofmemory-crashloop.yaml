@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-demo-service
+  labels:
+    app: memory-tester
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memory-tester
+  template:
+    metadata:
+      labels:
+        app: memory-tester
+    spec:
+      containers:
+      - name: memory-hog
+        image: alpine:latest
+        # This command attempts to allocate 100MB of memory 
+        # into a temporary RAM-based filesystem or variable
+        command: ["/bin/sh", "-c", "tail /dev/zero | head -c 100M | cat > /dev/null"]
+        resources:
+          limits:
+            memory: "10Mi" # Hard limit set very low
+            cpu: "100m"
+          requests:
+            memory: "5Mi"

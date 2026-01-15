@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finops-error-demo
+  labels:
+    app: billing-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing-service
+  template:
+    metadata:
+      labels:
+        app: billing-service
+    spec:
+      containers:
+      - name: processor
+        image: alpine:latest
+        # This command will cause the container to exit immediately with an error
+        # because the directory /data/config does not exist.
+        command: ["ls", "/data/config"]
+        ports:
+        - containerPort: 8080
