@@ -17,6 +17,7 @@
 kubectl get pods
 kubectl describe pod <pod-name>
 kubectl get events
+```
 
 
 ## CrashLoopBackOff
