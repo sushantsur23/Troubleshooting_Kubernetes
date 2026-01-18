@@ -28,3 +28,20 @@ Kubernetes retries the restart with **increasing delays** instead of failing imm
 **Common causes:** application errors, misconfigured liveness probes, or insufficient CPU/memory.
 
 Use `kubectl describe pod`, `kubectl logs`, and `kubectl get events` to identify the root cause.
+
+
+
+
+## 📦 StatefulSets & Persistent Volumes
+
+StatefulSets require **Persistent Volumes** to start successfully.  
+If a Pod remains in **Pending**, it usually means the **PersistentVolumeClaim is unbound**.
+
+⚠️ This commonly happens when:
+- StorageClasses differ across platforms
+- AWS-specific storage is used elsewhere
+- CSI drivers are missing for external storage
+
+🔑 Fixing storage configuration allows StatefulSet Pods to be scheduled and run correctly.
+
+
