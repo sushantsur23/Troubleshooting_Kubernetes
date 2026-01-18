@@ -45,3 +45,16 @@ If a Pod remains in **Pending**, it usually means the **PersistentVolumeClaim is
 🔑 Fixing storage configuration allows StatefulSet Pods to be scheduled and run correctly.
 
 
+## 🔐 Securing Databases with Network Policies
+
+By default, Kubernetes allows **open Pod-to-Pod communication** across namespaces 🚫  
+This poses a serious risk for sensitive workloads like databases.
+
+🛡️ **Network Policies** enforce **zero-trust networking** by controlling:
+- 🔒 Which Pods can access the database
+- 🏷️ Access based on namespaces and labels
+- 🚦 Ingress and Egress traffic rules
+
+This section demonstrates how to **isolate databases** and prevent unauthorized access — even within the same cluster.
+
+
